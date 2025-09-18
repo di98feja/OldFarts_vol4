@@ -1,9 +1,14 @@
 #include <SFML/Graphics.hpp>
+#include <math.h>
+#include "ballBounceScroller.h"
 
 int main()
 {
-    auto window = sf::RenderWindow(sf::VideoMode({1920u, 1080u}), "CMake SFML Project", sf::Style::None, sf::State::Fullscreen);
-    window.setFramerateLimit(144);
+    auto window = sf::RenderWindow(sf::VideoMode({1920u, 1080u}), "Oldfarts vol.4, N0lan 2025", sf::Style::None, sf::State::Fullscreen);
+    window.setFramerateLimit(60);
+    window.setMouseCursorVisible(false);
+
+    auto scroller = BallBounceScroller(window);
 
     while (window.isOpen())
     {
@@ -21,6 +26,8 @@ int main()
         }
 
         window.clear();
+        scroller.update(1.f);
+        scroller.draw(window);
         window.display();
     }
 }
