@@ -5,18 +5,21 @@ void PointCloud::generatePixels(float width, float height)
 {
     this->pixels = sf::VertexArray(sf::PrimitiveType::Points);
     NoiseGenerator noise;
-    for (int y = 0; y < height * 1.f; ++y)
+    for (int y = 0; y < height * 2.f; ++y)
     {
-        for (int x = 0; x < width * 1.f; ++x)
+        for (int x = 0; x < width * 2.f; ++x)
         {
             // Scale coordinates to get interesting patterns
             float fx = static_cast<float>(x) * 0.02f;
             float fy = static_cast<float>(y) * 0.02f; 
-            float noiseValue = noise.fbm(fx, fy,  this->timer.getElapsedTime().asSeconds()*1.f);
+            float noiseValue = noise.fbm(fx, fy,  this->timer.getElapsedTime().asSeconds()*0.1f);
             noiseValue = (noiseValue + 1.0f) * 0.5f;  // Convert from [-1,1] to [0,1]
             noiseValue = std::max(0.0f, std::min(1.0f, noiseValue)); // Clamp
             uint8_t colorValue = static_cast<uint8_t>(1.f-noiseValue * 255);
-            this->pixels.append(sf::Vertex{sf::Vector2f(static_cast<float>(x), static_cast<float>(y)), sf::Color(colorValue, colorValue, colorValue)});
+            float amplitudeValue = noise.fbm(fy, fx,  this->timer.getElapsedTime().asSeconds()*0.15f);
+            amplitudeValue = (amplitudeValue + 1.0f) * 0.5f;  // Convert from [-1,1] to [0,1]
+            amplitudeValue = std::max(0.0f, std::min(1.0f, amplitudeValue)); // Clamp
+            this->pixels.append(sf::Vertex{sf::Vector2f(static_cast<float>(x), static_cast<float>(y)), sf::Color(colorValue, colorValue, static_cast<uint8_t>(1.f-amplitudeValue * 255))});
         }
     }
 }
@@ -122,10 +125,10 @@ void PointCloud::fbmPattern(float deltaTime)
   for (int i = 0; i < this->points.getVertexCount(); ++i)
   {
     auto &point = this->originalPositions[i];
-    auto t1 = (sin(this->pixels[pixelIndex % pixels.getVertexCount()].color.r / 256.f) * 2.0f - 1.0f);
-    auto t2 = (cos(this->pixels[pixelIndex % pixels.getVertexCount()].color.g / 256.f + math::) * 2.0f - 1.0f);
-    this->points[i].position.x = point.x + (sin(this->pixels[pixelIndex%pixels.getVertexCount()].color.r/256.f) * 2.0f - 1.0f) * 512.0f;
-    this->points[i].position.y = point.y + (cos(this->pixels[pixelIndex%pixels.getVertexCount()].color.g/256.f + 0.5f) * 2.0f - 1.0f) * 512.0f;
+    auto noiseValues = this->pixels[pixelIndex%this->pixels.getVertexCount()].color;
+    auto angle = noiseValues.r/256.f * 2.0f * 3.14159265f;
+    this->points[i].position.x = point.x + sin(angle) * noiseValues.b * 10.0f;
+    this->points[i].position.y = point.y + cos(angle) * noiseValues.b * 10.0f;
 
     pixelIndex++;
 
