@@ -78,7 +78,7 @@ void BallBounceScroller::update(float deltaTime)
     for (const auto& ball : balls)
     {
         auto amplitude = (this->LINE_Y > ball.shape.getPosition().y + BALL_RADIUS * 2.f ? this->LINE_Y : ball.shape.getPosition().y + BALL_RADIUS * 2.f) - this->LINE_Y;
-        auto sigma = 180.f;
+        auto sigma = 300.f;
         for (size_t i = 0; i < line.getVertexCount(); ++i)
         {
             auto& vertex = line[i];
