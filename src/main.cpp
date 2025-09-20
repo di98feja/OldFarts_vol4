@@ -1,7 +1,10 @@
+
 #include <SFML/Graphics.hpp>
 #include <math.h>
 #include "ballBounceScroller.h"
 #include "pointCloud.h"
+#include "cube.h"
+
 
 int main()
 {
@@ -11,7 +14,10 @@ int main()
 
     auto scroller = BallBounceScroller(window);
     auto pointCloud = PointCloud();
-    pointCloud.generatePoints(10000, static_cast<float>(window.getSize().x), static_cast<float>(window.getSize().y));
+    pointCloud.generatePoints(10000, static_cast<float>(window.getSize().x), static_cast<float>(window.getSize().y));    
+    Cube cube(200.f, sf::Vector2f(960.f, 700.f)); // Centered below text
+    sf::Clock clock;
+
     while (window.isOpen())
     {
         while (const std::optional event = window.pollEvent())
@@ -27,6 +33,7 @@ int main()
             }
         }
 
+    
         window.clear();
 
         pointCloud.update(1.f/30.f);
@@ -34,6 +41,11 @@ int main()
         
         scroller.update(1.f);
         scroller.draw(window);
+
+        float dt = clock.restart().asSeconds();
+        cube.rotate(dt, dt * 0.7f, dt * 0.5f);
+        cube.draw(window);
+
         window.display();
     }
 }

@@ -15,6 +15,7 @@ FetchContent_MakeAvailable(SFML)
 add_executable(main 
     src/main.cpp
     src/ballBounceScroller.cpp
+    src/cube.cpp
     src/pointCloud.cpp
     src/noiseGenerator.cpp)
 target_compile_features(main PRIVATE cxx_std_17)
