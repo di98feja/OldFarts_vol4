@@ -5,7 +5,7 @@
 
 class NoiseGenerator {
 private:
-    static constexpr int SMOKE_LAYERS = 6;  // Adjust as needed
+    static constexpr int SMOKE_LAYERS = 5;  // Adjust as needed
     
     float hash(float x, float y, float z);
     inline float fastHash(int x, int y, int z) {

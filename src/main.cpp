@@ -8,13 +8,13 @@
 
 int main()
 {
-    auto window = sf::RenderWindow(sf::VideoMode({1920u, 1024u}), "Oldfarts vol.4, N0lan 2025", sf::Style::None, sf::State::Fullscreen);
+    auto window = sf::RenderWindow(sf::VideoMode({1920u, 1024u}), "Oldfarts vol.4, N0lan 2025", sf::Style::None, sf::State::Windowed);
     window.setFramerateLimit(60);
     window.setMouseCursorVisible(false);
 
     auto scroller = BallBounceScroller(window);
     auto pointCloud = PointCloud();
-    pointCloud.generatePoints(10000, static_cast<float>(window.getSize().x), static_cast<float>(window.getSize().y));    
+    pointCloud.generatePoints(25600, static_cast<float>(window.getSize().x), static_cast<float>(window.getSize().y));    
     Cube cube(200.f, sf::Vector2f(960.f, 700.f)); // Centered below text
     sf::Clock clock;
 
