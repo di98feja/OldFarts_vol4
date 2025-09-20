@@ -1,6 +1,9 @@
+
 #include <SFML/Graphics.hpp>
 #include <math.h>
 #include "ballBounceScroller.h"
+#include "cube.h"
+
 
 int main()
 {
@@ -9,6 +12,9 @@ int main()
     window.setMouseCursorVisible(false);
 
     auto scroller = BallBounceScroller(window);
+    Cube cube(200.f, sf::Vector2f(960.f, 700.f)); // Centered below text
+
+    sf::Clock clock;
 
     while (window.isOpen())
     {
@@ -25,9 +31,15 @@ int main()
             }
         }
 
+    
         window.clear();
         scroller.update(1.f);
         scroller.draw(window);
+
+        float dt = clock.restart().asSeconds();
+        cube.rotate(dt, dt * 0.7f, dt * 0.5f);
+        cube.draw(window);
+
         window.display();
     }
 }
