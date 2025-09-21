@@ -15,7 +15,7 @@ int main()
     auto scroller = BallBounceScroller(window);
     auto pointCloud = PointCloud();
     pointCloud.generatePoints(25600, static_cast<float>(window.getSize().x), static_cast<float>(window.getSize().y));    
-    Cube cube(200.f, sf::Vector2f(960.f, 700.f)); // Centered below text
+    Cube cube(200.f, sf::Vector2f(window.getSize().x/2, window.getSize().y*2/3)); // Centered below text
     sf::Clock clock;
 
     while (window.isOpen())
