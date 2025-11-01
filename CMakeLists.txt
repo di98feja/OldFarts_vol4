@@ -17,6 +17,7 @@ add_executable(main
     src/ballBounceScroller.cpp
     src/cube.cpp
     src/pointCloud.cpp
-    src/noiseGenerator.cpp)
+    src/noiseGenerator.cpp
+    src/sphere.cpp)
 target_compile_features(main PRIVATE cxx_std_17)
 target_link_libraries(main PRIVATE SFML::Graphics)

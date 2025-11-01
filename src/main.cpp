@@ -4,18 +4,19 @@
 #include "ballBounceScroller.h"
 #include "pointCloud.h"
 #include "cube.h"
-
+#include "sphere.h"
 
 int main()
 {
-    auto window = sf::RenderWindow(sf::VideoMode({1920u, 1024u}), "Oldfarts vol.4, N0lan 2025", sf::Style::None, sf::State::Windowed);
+    auto window = sf::RenderWindow(sf::VideoMode({1024u, 768u}), "Oldfarts vol.4, N0lan 2025", sf::Style::None, sf::State::Windowed);
     window.setFramerateLimit(60);
     window.setMouseCursorVisible(false);
 
     auto scroller = BallBounceScroller(window);
     auto pointCloud = PointCloud();
     pointCloud.generatePoints(25600, static_cast<float>(window.getSize().x), static_cast<float>(window.getSize().y));    
-    Cube cube(200.f, sf::Vector2f(960.f, 700.f)); // Centered below text
+    Cube cube(800.f, sf::Vector2f(512.f, 384.f)); // Centered below text
+    Sphere sphere(400.f, sf::Vector2f(512.f, 584.f)); // Centered below text
     sf::Clock clock;
 
     while (window.isOpen())
@@ -42,8 +43,13 @@ int main()
         scroller.update(1.f);
         scroller.draw(window);
 
-        float dt = clock.restart().asSeconds();
-        cube.rotate(dt, dt * 0.7f, dt * 0.5f);
+        float dt = clock.getElapsedTime().asSeconds();
+        sphere.rotate(dt*0.015f, dt * 0.04f, dt * 0.06f);
+        sphere.move(sin(clock.getElapsedTime().asSeconds() * 3.0f) * 100.f, cos(clock.getElapsedTime().asSeconds() * 2.5f) * 100.f);
+        sphere.draw(window);
+
+        sphere.updateBallBounce(cube.getPosition(), cube.getVertices());
+        cube.rotate(dt*0.01f, dt * 0.07f, dt * 0.05f);
         cube.draw(window);
 
         window.display();
